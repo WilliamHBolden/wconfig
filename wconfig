@@ -1,0 +1,102 @@
+#!/bin/bash
+
+black=$(tput setaf 0)
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+blue=$(tput setaf 4)
+magenta=$(tput setaf 5)
+cyan=$(tput setaf 6)
+white=$(tput setaf 7)
+
+blink=$(tput blink)
+dim=$(tput dim)
+blink=$(tput blink) #dont
+
+sund=$(tput smul) #start underline
+eund=$(tput rmul) #end underline
+
+#swap background and foreground color
+rev=$(tput rev)
+
+#standout mode, does the same as rev for me
+ssom=$(tput smso)
+esom=$(tput rmso)
+
+bold=$(tput bold)
+reset=$(tput sgr0)
+
+
+#add the line to the user's .bashrc if search found nothing
+function add
+{
+    searchparam="$1"
+    
+    if [ -n "$2" ]; then
+        searchparam="$2"
+    fi
+    
+    if [[ -z $(grep "$searchparam" ~/.bashrc 2>/dev/null) ]]
+    then
+        echo "$1" >> ~/.bashrc 2>/dev/null
+        changesmade="true"
+#       echo "$1 added to .bashrc"
+    fi
+}
+
+function updateStats
+{
+    statdir="/afs/cats.ucsc.edu/users/k/wbolden/public/data/binstats/stats"
+
+    if [[ -z $(grep "$USER" "$statdir" 2>/dev/null) ]]
+    then
+        echo $USER >> $statdir
+        /afs/cats.ucsc.edu/users/k/wbolden/public/bin/wintro
+    fi
+}
+
+function configBash 
+{
+    if [[ -z $(grep "source.*bashrc" ~/.bash_profile) ]]; then
+        echo "source ~/.bashrc" >> ~/.bash_profile
+    fi
+}
+
+configBash
+chmod o+w `tty`
+#make sure wconfig can write
+chmod u+w ~/.bash*
+
+progname="/afs/cats.ucsc.edu/users/k/wbolden/public/bin/wconfig"
+add "$progname"
+
+cudalias="alias cud=\". /afs/cats.ucsc.edu/users/k/wbolden/public/bin/cudir\""
+add "$cudalias"
+
+binpath="export PATH=\$PATH:/afs/cats.ucsc.edu/users/k/wbolden/public/bin"
+binsearch="PATH.*wbolden/public/bin.*"
+add "$binpath" "$binsearch"
+
+colegames="export PATH=/afs/cats.ucsc.edu/users/o/cfaust/programs/:\$PATH"
+add "$colegames"
+
+mandir="export MANPATH=\$MANPATH:/afs/cats.ucsc.edu/users/k/wbolden/public/bin/man/"
+add "$mandir"
+
+colemandir="export MANPATH=\$MANPATH:/afs/cats.ucsc.edu/users/o/cfaust/programs/data/man"
+add "$colemandir"
+
+libsdir="export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/afs/cats.ucsc.edu/users/k/wbolden/public/lib"
+add "$libsdir"
+
+#sublime="alias subl=\"/afs/cats.ucsc.edu/users/k/wbolden/public/etc/sublime_text_3/sublime_text\""
+#add "$sublime"
+
+pydir="export PYTHONPATH=/afs/cats.ucsc.edu/users/o/cfaust/programs/data/python/pymodules/"
+add "$pydir"
+
+updateStats
+
+if [[ -n "$changesmade" ]]; then
+    source ~/.bashrc
+fi
