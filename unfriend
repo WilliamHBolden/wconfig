@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+search=$(grep $1 ~/.friends)
+if [[ -z "$search" ]]; then
+    echo "$1 not found in friends"
+else
+    sed /"$1"/d ~/.friends > ~/.tempfriends
+    mv ~/.tempfriends ~/.friends
+    echo "$1 removed from friends"
+fi

@@ -1,0 +1,100 @@
+#!/bin/bash
+
+/afs/cats.ucsc.edu/users/k/wbolden/public/bin/wadvert
+
+
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+blue=$(tput setaf 4)
+magenta=$(tput setaf 5)
+cyan=$(tput setaf 6)
+bold=$(tput bold)
+NC=$(tput sgr0)
+
+ddir="/afs/cats.ucsc.edu/users/k/wbolden/public/data/server/tmp"
+
+host=$(hostname -s)
+showoffline=false
+
+if [[ $* == *-o* ]]; then
+    showoffline=true
+    firstitem=$2
+    shift;
+fi
+  
+if [[ $# -eq 0 ]]; then
+    unames=$(cat ~/.friends)
+else
+    unames=$@
+fi
+
+printf '%s%9s%8s%10s%7s%s\n' ${bold} ' User  ' 'Status' 'Server ' 'mesg' ${NC}
+
+for user in $unames
+do
+    u1=$(cat $ddir/users.unix1 | grep -w "$user")
+    u2=$(cat $ddir/users.unix2 | grep -w "$user")
+    online=''
+    same=false
+    u1c=${NC}
+    u2c=${NC}
+    
+    if [[ -n "$u1" ]]; then
+	u1="unix1"
+	if [[ "$host" = "unix1" ]]; then
+	    online=$online" ${blue}unix1${NC}"
+	    same=true
+	    u1c=${blue}
+	else
+	    online=$online" unix1"
+	fi
+    else
+	u1="-----"
+    fi
+
+    if [[ -n "$u2" ]]; then
+	u2="unix2"
+	if [[ "$host" = "unix2" ]]; then
+	    online=$online" ${blue}unix2${NC}"
+	    same=true
+	    u2c=${blue}
+	else
+	    online=$online" unix2"
+	fi
+    else
+	u2="-----"
+    fi
+
+    #mesg
+    perm=$(stat -c "%a" /dev/$(who | grep $user | tr -s ' ' | cut -d" " -f 2) 2>/dev/null)
+    gper=$(echo $perm | cut -c 2)
+    oper=$(echo $perm | cut -c 3)
+    mesg=$(( 2 & $gper))
+    full=$(( 2 & $oper))
+
+    if [[ 2 -eq $mesg ]]; then
+	mgc=${green}
+	mesgy=yes
+    else
+	mgc=${red}
+	mesgy=no
+    fi
+
+    if [[ 2 -eq $full ]]; then
+	mgc=${magenta}
+	mesgy=full
+    fi
+    
+
+    
+    if [[ -n "$online" ]]; then
+	if [[ "$same" = true ]]; then
+	    printf '%9s%s%8s%s%s%6s%s%s%6s%s%s%5s%s\n' $user ${green} online ${NC} ${u1c} $u1 ${NC} ${u2c} $u2 ${NC} ${mgc} $mesgy ${NC}
+	else
+	    printf '%9s%s%8s%s%s%6s%s%s%6s%s%s%5s%s\n' $user ${yellow} online ${NC} ${u1c} $u1 ${NC} ${u2c} $u2 ${NC} ${yellow} $mesgy ${NC}
+	fi
+    elif [[ "$showoffline" = true ]]; then
+         printf '%9s%s%8s%s%s%6s%s%s%6s%s\n' $user ${red} offline ${NC} ${u1c} $u1 ${NC} ${u2c} $u2 ${NC}
+    fi
+done

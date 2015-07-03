@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]]; then
+    while read line
+    do
+	echo "$line" | sed -r "s:\x1B\[[0-9;]*[mK]::g"
+    done
+    
+else
+    for line in $@
+    do
+	echo "$line" | sed -r "s:\x1B\[[0-9;]*[mK]::g"
+    done
+fi

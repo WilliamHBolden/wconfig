@@ -33,14 +33,14 @@ function add
     searchparam="$1"
     
     if [ -n "$2" ]; then
-        searchparam="$2"
+	searchparam="$2"
     fi
     
     if [[ -z $(grep "$searchparam" ~/.bashrc 2>/dev/null) ]]
     then
-        echo "$1" >> ~/.bashrc 2>/dev/null
-        changesmade="true"
-#       echo "$1 added to .bashrc"
+	echo "$1" >> ~/.bashrc 2>/dev/null
+	changesmade="true"
+#	echo "$1 added to .bashrc"
     fi
 }
 
@@ -50,15 +50,15 @@ function updateStats
 
     if [[ -z $(grep "$USER" "$statdir" 2>/dev/null) ]]
     then
-        echo $USER >> $statdir
-        /afs/cats.ucsc.edu/users/k/wbolden/public/bin/wintro
+	echo $USER >> $statdir
+	/afs/cats.ucsc.edu/users/k/wbolden/public/bin/wintro
     fi
 }
 
 function configBash 
 {
     if [[ -z $(grep "source.*bashrc" ~/.bash_profile) ]]; then
-        echo "source ~/.bashrc" >> ~/.bash_profile
+	echo "source ~/.bashrc" >> ~/.bash_profile
     fi
 }
 

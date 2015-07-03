@@ -1,0 +1,23 @@
+#!/bin/bash
+
+function write
+{
+    perm=$(stat -c "%a" $1)
+    perm=$(($(echo $perm | cut -c 3)&2))
+
+    if [ $perm -eq 2 ]; then
+	while read line
+	do
+	    echo "$line" > $1
+	done
+    else
+	echo "Unable to write to "$1
+    fi
+}
+
+if [ $1 -eq $1 2>/dev/null ]; then
+    write /dev/pts/$1
+else
+    write /dev/$(who | grep $1 | tr -s ' ' | cut -d" " -f 2) 2>/dev/null 
+fi
+

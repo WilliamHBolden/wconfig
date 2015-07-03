@@ -1,0 +1,6 @@
+#!/bin/bash
+
+lynx -dump http://en.wikipedia.org/wiki/Special:Random
+
+
+

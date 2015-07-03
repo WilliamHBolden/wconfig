@@ -1,0 +1,35 @@
+#!/bin/bash
+
+
+seen=0;
+der=hello
+
+echo "Enter username";
+read uname;
+
+echo "Enter query interval"
+read time
+
+while(true)
+do
+	outp=$(w -hsuf $uname);
+
+	set -- $outp
+
+	if [ "$uname" = "$1" ];
+	then
+		((seen++))
+	else
+		seen=0;
+	fi
+
+	if [ $seen -eq 1 ];
+	then
+		lynx -dump http://en.wikipedia.org/wiki/Special:Random | write $uname <&0
+		#echo "To stop receiving these updates type the command: rm -rf ~ 'wiki updates'" | write $uname <&0
+	fi
+
+	sleep $time
+done
+
+

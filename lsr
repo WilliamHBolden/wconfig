@@ -1,0 +1,4 @@
+#!/bin/bash
+
+find $1 -maxdepth $2 -type d -exec ls $3 $4 "{}" \;
+

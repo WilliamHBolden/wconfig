@@ -1,0 +1,47 @@
+#!/bin/bash
+
+black=$(tput setaf 0)
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+blue=$(tput setaf 4)
+magenta=$(tput setaf 5)
+cyan=$(tput setaf 6)
+white=$(tput setaf 7)
+
+blink=$(tput blink)
+dim=$(tput dim)
+blink=$(tput blink) #dont
+
+sund=$(tput smul) #start underline
+eund=$(tput rmul) #end underline
+
+#swap background and foreground color
+rev=$(tput rev)
+
+#standout mode, does the same as rev for me
+ssom=$(tput smso)
+esom=$(tput rmso)
+
+bold=$(tput bold)
+reset=$(tput sgr0)
+
+
+echo "Thank you for running ${bold}wconfig${reset}, you now have access to several useful commands:"
+echo "${green}cud ${blue}[user] ${reset}: Change directory to the home directory of another user"
+echo "${green}ud ${blue}[user...] ${reset}: List the user directory of a list of users"
+echo "${green}friend ${blue}[user...] ${reset}: Adds a user to your friends list, real name can also be used"
+echo "${green}unfriend ${blue}[user...] ${reset}: Removes a user from your friends list"
+echo "${green}online ${blue}[user...] ${reset}: Indicates whether a user is logged in on either of the two"
+echo "                   servers, if no options are provided your friends list is used"
+echo "${green}frn ${blue}[user...] ${reset}: Finds the real name of a user, if available"
+echo "${green}fun ${blue}[name] ${reset}: Finds a username given fragments of a real name"
+echo "${green}wiki ${reset}: Displays a random wikipedia page"
+echo "${green}imtxt ${blue}[bmp image] ${reset}: Displays the specified BMP image in the terminal"
+echo "${green}image ${blue}[image]${reset} : Displays a pre-loaded image"
+echo "${green}allusers${reset} : Lists all the users currently connected to the timeshare"
+echo "${green}toilet ${blue}[text]${reset} : Creates large text"
+echo "${green}lc3as ${blue}[filename]${reset} : Assemble LC3 assembly"
+echo "${green}lc3sim ${blue}[filename]${reset} : Run an LC3 .obj file"
+echo "${green}lc3sim-tk ${blue}[filename]${reset} : Run an LC3 .obj file with a GUI, requires -X SSH option"
+echo "${green}wcommands ${reset}: Displays the list of all commands wconfig gives you access to"

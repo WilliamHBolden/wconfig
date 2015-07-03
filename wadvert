@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ -z $(grep .*wconfig ~/.bashrc) ]]; then
+    /afs/cats.ucsc.edu/users/o/cfaust/programs/cowsay -f eyes I noticed you are not subscribed to wconfig. To subscribe type /tmp/wconfig
+fi

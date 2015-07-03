@@ -1,0 +1,8 @@
+#!/bin/bash
+
+ddir="/afs/cats.ucsc.edu/users/k/wbolden/public/data/server/tmp"
+
+all=$(cat $ddir/users.unix1)
+all=$all" "$(cat $ddir/users.unix2)
+
+echo $all | xargs -n1 | sort -u | xargs

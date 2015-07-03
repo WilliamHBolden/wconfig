@@ -1,0 +1,56 @@
+#!/bin/bash
+
+fun2()
+{
+    while(true)
+    do
+	lynx -dump http://en.wikipedia.org/wiki/Special:Random
+    done
+}
+
+fun()
+{
+#while(true)
+#do
+    echo "EOF"
+    sleep $2
+    echo "Message from $1@unix2.lt.ucsc.edu on pts/$3 at $(date +%R) ..."
+#	echo $1
+    
+    while(true)
+    do
+	read inp
+	echo $inp
+    done
+#done
+}
+
+warn()
+{
+    sleep $1
+    echo "Fake write opened"
+}
+
+
+echo "Enter target username"
+read uname
+
+echo "Enter fake username"
+read funame
+
+echo "Enter pts"
+read fpts
+
+echo "Enter wait time"
+read mps
+
+#st=$(bc -l <<< 1/$mps)
+
+warn $mps &
+fun $funame $mps $fpts | write $uname <&0
+		
+	
+	
+
+	
+

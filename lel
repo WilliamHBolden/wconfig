@@ -1,0 +1,38 @@
+#!/bin/bash
+
+fun2()
+{
+while(true)
+do
+	lynx -dump http://en.wikipedia.org/wiki/Special:Random
+done
+}
+
+fun()
+{
+while(true)
+do
+	echo $1;
+	sleep $2
+done
+}
+
+
+echo "Enter username"
+read uname
+
+echo "Enter message"
+read message
+
+echo "Enter messages per second"
+read mps
+
+st=$(bc -l <<< 1/$mps)
+
+fun $message $mps | write $uname <&0
+		
+	
+	
+
+	
+

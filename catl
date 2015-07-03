@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ -z "$3" ]]; then
+    sedstr="$2q;d"
+else
+    sedstr="$2,$3p;d"
+fi
+sed $sedstr $1

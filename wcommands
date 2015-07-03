@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ls -p  /afs/cats.ucsc.edu/users/k/wbolden/public/bin | grep -v '/$'
+ls -p /afs/cats.ucsc.edu/users/o/cfaust/programs/ | grep -v '/$'

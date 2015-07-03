@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd $(getent passwd "$1" | cut -d: -f6)
+

@@ -1,0 +1,67 @@
+#!/bin/bash
+
+red='\033[0;31m'
+NC='\033[0m'
+
+nlist="/afs/cats.ucsc.edu/users/k/wbolden/public/data/users/nlist.bak"
+
+if [[ $* == *-x* ]]; then
+    exclusive=true
+    firstitem=$2
+    shift;
+fi
+
+if [[ $# -eq 0 ]]; then
+    echo "Current friends:"
+    cat ~/.friends
+else
+    
+
+if [[ "$exclusive" = true ]]; then
+
+    if [[ $# -eq 1 ]]; then
+	ret=$(grep -iw --color=always "\s$1\|^$1" $nlist)
+    elif [[ $# -eq 2 ]]; then
+	ret=$(grep -iw --color=always "\s$1".*"\s$2" $nlist)
+    elif [[ $# -eq 3 ]]; then
+	ret=$(grep -iw --color=always "\s$1".*"\s$2".*"\s$3" $nlist)
+    else
+	ret=$(grep -iw --color=always "\s$1".*"\s$2".*"\s$3".*"\s$4" $nlist)
+    fi
+else
+    if [[ $# -eq 1 ]]; then
+	ret=$(grep -i --color=always "\s$1\|^$1" $nlist)
+    elif [[ $# -eq 2 ]]; then
+	ret=$(grep -i --color=always "\s$1".*"\s$2" $nlist)
+    elif [[ $# -eq 3 ]]; then
+	ret=$(grep -i --color=always "\s$1".*"\s$2".*"\s$3" $nlist)
+    else
+	ret=$(grep -i --color=always "\s$1".*"\s$2".*"\s$3".*"$4" $nlist)
+    fi
+fi
+
+num=$(echo "$ret" | wc -l)
+
+if [ -z "$ret" ]
+then
+    num=0
+fi
+
+if [ $num -eq 1 ]
+then
+    friend=$(echo $ret | sed -r "s:\x1B\[[0-9;]*[mK]::g" | xargs | cut -d: -f 1)
+    if [[ -z $(grep "$friend" ~/.friends) ]]
+    then
+	echo $friend >> ~/.friends
+	echo "$friend added to friends" 
+    else
+	echo "$friend is already a friend"
+    fi
+else
+    echo -e Found "${red}"$num"${NC}" matches
+    if [ $num -ne 0 ]
+    then
+	echo "$ret"
+    fi
+fi
+fi
