@@ -4,7 +4,7 @@ Are you a student at UCSC? Do you have acces to the Unix Timeshare? If you do th
 
 To run wconfig login into the Unix Timeshare and type `/tmp/wconfig` to gain access to:
 
-- `cud [user]` : Change directory to the home directory of another user
+- ```cud [user]``` : Change directory to the home directory of another user
 - `ud [user...]` : List the user directory of a list of users
 - `friend [user...]` : Adds a user to your friends list, real name can also be used
 - `unfriend [user...]` : Removes a user from your friends list
